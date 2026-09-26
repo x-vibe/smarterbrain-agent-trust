@@ -2,7 +2,7 @@
 
 This is an unqualified candidate for explicitly authorized staging acceptance. It is not a customer release. The ordinary `--install` path rejects candidate metadata. Existing installations must not use this first-install path.
 
-The [current card](current.json) has sequence 3 and expires **2026-09-27 16:08:54 UTC**. Read it directly from this independently authenticated maintainer repository before proceeding. A missing, expired or changed card means stop. The stable channel remains unavailable.
+The [current card](current.json) has sequence 4 and expires **2026-09-27 16:58:34 UTC**. Read it directly from this independently authenticated maintainer repository before proceeding. A missing, expired or changed card means stop. The stable channel remains unavailable.
 
 ## Before the first execution
 
@@ -17,21 +17,21 @@ set -eu
 test "$(id -u)" -eq 0
 cd /root
 umask 077
-mkdir -m 700 sb-native-e8ce089c5b0ea46b8d048b7cdf0d94447500d0a92654887722c1601907934125
-cd sb-native-e8ce089c5b0ea46b8d048b7cdf0d94447500d0a92654887722c1601907934125
+mkdir -m 700 sb-native-584db4d463dff00f8980e3a25dfddac9dcfabbae53920c17b1aaebb57e0eafd0
+cd sb-native-584db4d463dff00f8980e3a25dfddac9dcfabbae53920c17b1aaebb57e0eafd0
 test "$(uname -m)" = x86_64
 test "$(. /etc/os-release; printf '%s:%s' "$ID" "$VERSION_ID")" = ubuntu:26.04
-test "$(date -u +%s)" -ge 1790438934
-test "$(date -u +%s)" -lt 1790525334
+test "$(date -u +%s)" -ge 1790441914
+test "$(date -u +%s)" -lt 1790528314
 printf '%s\n' 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAXLjsBybAXAYqAhUJOl0vAKnT9+z9LFk2TFlHgni/c0' > release-key.pub
 test "$(ssh-keygen -lf release-key.pub -E sha256 | cut -d ' ' -f 2)" = 'SHA256:396creISv40oxTauVqTOQ2TBDgtjGFe0zgYuJTtz7Vo'
-curl --fail --proto '=https' --tlsv1.2 --max-time 120 --output smarterbrain-installer 'https://dl.smarterbrain.ai/native/sha256/e8ce089c5b0ea46b8d048b7cdf0d94447500d0a92654887722c1601907934125/smarterbrain-installer'
-curl --fail --proto '=https' --tlsv1.2 --max-time 120 --output smarterbrain-installer.sig 'https://dl.smarterbrain.ai/native/sha256/e8ce089c5b0ea46b8d048b7cdf0d94447500d0a92654887722c1601907934125/smarterbrain-installer.sig'
-test "$(wc -c < smarterbrain-installer)" -eq 6442552
-printf '%s\n' 'e8ce089c5b0ea46b8d048b7cdf0d94447500d0a92654887722c1601907934125  smarterbrain-installer' | sha256sum --check --strict -
+curl --fail --proto '=https' --tlsv1.2 --max-time 120 --output smarterbrain-installer 'https://dl.smarterbrain.ai/native/sha256/584db4d463dff00f8980e3a25dfddac9dcfabbae53920c17b1aaebb57e0eafd0/smarterbrain-installer'
+curl --fail --proto '=https' --tlsv1.2 --max-time 120 --output smarterbrain-installer.sig 'https://dl.smarterbrain.ai/native/sha256/584db4d463dff00f8980e3a25dfddac9dcfabbae53920c17b1aaebb57e0eafd0/smarterbrain-installer.sig'
+test "$(wc -c < smarterbrain-installer)" -eq 6511000
+printf '%s\n' '584db4d463dff00f8980e3a25dfddac9dcfabbae53920c17b1aaebb57e0eafd0  smarterbrain-installer' | sha256sum --check --strict -
 printf '%s\n' 'smarterbrain-bootstrap namespaces="smarterbrain-agent-bootstrap-v1" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAXLjsBybAXAYqAhUJOl0vAKnT9+z9LFk2TFlHgni/c0' > allowed-signers
 ssh-keygen -Y verify -f allowed-signers -I smarterbrain-bootstrap -n smarterbrain-agent-bootstrap-v1 -s smarterbrain-installer.sig < smarterbrain-installer
-test "$(date -u +%s)" -lt 1790525334
+test "$(date -u +%s)" -lt 1790528314
 
 chmod 0500 smarterbrain-installer
 ./smarterbrain-installer --install-candidate
@@ -41,4 +41,4 @@ When prompted, paste the short-lived connection code from your own staging custo
 
 On an interrupted attempt, retain its files and original installation directory. The supported same-transaction entrypoint is `./smarterbrain-installer --resume`; it retains the original candidate choice and enrollment identity. A refused or held attempt is not proof of successful recovery. Do not delete its state or mint repeated replacement codes to conceal an uncertain enrollment.
 
-The signed Agent catalog selects only this candidate and the absent-installation edge. No qualified update target or stable release is published. [Corresponding source](https://dl.smarterbrain.ai/native/sha256/f90a18b6f7e43f0c9dac41be87b817e53299bb60d82e1f4db9a83886c81e38b2/corresponding-source.tar.gz) accompanies the package, with its distribution notices and source manifest.
+The signed Agent catalog selects only this candidate and the absent-installation edge. No qualified update target or stable release is published. [Corresponding source](https://dl.smarterbrain.ai/native/sha256/19f7bbab6bf800d44c4178f5d7d80bcd71eb2976ea6afd2f76998a0dba02f710/corresponding-source.tar.gz) accompanies the package, with its distribution notices and source manifest.
